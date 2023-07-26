@@ -13,7 +13,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
-description = "One line description of your module"
+description = "Bluesky plan to perform bimorph mirror optimisation"
 dependencies = [
     "typing-extensions;python_version<'3.8'",
 ] # Add project dependencies here, e.g. ["click", "numpy"]
@@ -44,7 +44,7 @@ dev = [
 bimorph_optimisation_plan = "bimorph_optimisation_plan.__main__:main"
 
 [project.urls]
-GitHub = "https://github.com/dan-fernandes/bimorph_optimisation_plan"
+GitHub = "https://github.com/dan-fernandes/bimorph-optimisation-plan"
 
 [[project.authors]] # Further authors may be added by duplicating this section
 email = "danieljosephfernandes@gmail.com"
