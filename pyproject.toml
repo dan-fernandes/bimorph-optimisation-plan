@@ -16,7 +16,15 @@ classifiers = [
 description = "Bluesky plan to perform bimorph mirror optimisation"
 dependencies = [
     "typing-extensions;python_version<'3.8'",
-] # Add project dependencies here, e.g. ["click", "numpy"]
+    "ophyd",
+    "bluesky",
+    "pyepics",
+    "dataclasses-json",
+    "pillow",
+    "requests",
+    "graypy",
+    "pydantic<2.0",
+]
 dynamic = ["version"]
 license.file = "LICENSE"
 readme = "README.rst"
