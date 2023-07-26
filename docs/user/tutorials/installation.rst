@@ -25,14 +25,14 @@ Installing the library
 
 You can now use ``pip`` to install the library and its dependencies::
 
-    $ python3 -m pip install python3-pip-skeleton
+    $ python3 -m pip install bimorph_optimisation_plan
 
 If you require a feature that is not currently released you can also install
 from github::
 
-    $ python3 -m pip install git+https://github.com/DiamondLightSource/python3-pip-skeleton.git
+    $ python3 -m pip install git+https://github.com/dan-fernandes/bimorph_optimisation_plan.git
 
 The library should now be installed and the commandline interface on your path.
 You can check the version that has been installed by typing::
 
-    $ python3-pip-skeleton --version
+    $ bimorph_optimisation_plan --version

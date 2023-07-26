@@ -1,14 +1,14 @@
 API
 ===
 
-.. automodule:: python3_pip_skeleton
+.. automodule:: bimorph_optimisation_plan
 
-    ``python3_pip_skeleton``
+    ``bimorph_optimisation_plan``
     -----------------------------------
 
-This is the internal API reference for python3_pip_skeleton
+This is the internal API reference for bimorph_optimisation_plan
 
-.. data:: python3_pip_skeleton.__version__
+.. data:: bimorph_optimisation_plan.__version__
     :type: str
 
     Version number as calculated by https://github.com/pypa/setuptools_scm

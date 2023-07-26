@@ -13,4 +13,4 @@ To make a new release, please follow this checklist:
 Note that tagging and pushing to the main branch has the same effect except that
 you will not get the option to edit the release notes.
 
-.. _release: https://github.com/DiamondLightSource/python3-pip-skeleton/releases
+.. _release: https://github.com/dan-fernandes/bimorph_optimisation_plan/releases

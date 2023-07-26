@@ -5,7 +5,7 @@ if sys.version_info < (3, 8):
 else:
     from importlib.metadata import version  # noqa
 
-__version__ = version("python3-pip-skeleton")
+__version__ = version("bimorph_optimisation_plan")
 del version
 
 __all__ = ["__version__"]
