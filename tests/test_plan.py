@@ -133,6 +133,7 @@ def test_get_centroids_2d(config=CONFIG):
             bimorph,
             slit,
             oav,
+            oav,
             config["initial_voltage_list"],
             config["voltage_increment"],
             config["x_slit_size"],
