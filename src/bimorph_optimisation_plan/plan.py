@@ -100,7 +100,6 @@ def get_centroids_2d(
 
         yield from bps.stage(oav)
         yield from bps.trigger(oav)
-        # yield from bps.read(oav.stats)
         yield from bps.read(centroid_device)
         yield from bps.unstage(oav)
 
