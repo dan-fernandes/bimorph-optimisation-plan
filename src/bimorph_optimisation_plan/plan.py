@@ -40,39 +40,6 @@ def slit_position_generator_1d(
         yield (slit_centre_increment * i, slit_size)
 
 """
-def slit_position_generator_2d(
-    x_slit_active_size,
-    x_slit_centre_start,
-    x_slit_centre_end,
-    x_number_of_slit_positions,
-    x_slit_dormant_size,
-    x_slit_dormant_centre,
-    y_slit_active_size,
-    y_slit_centre_start,
-    y_slit_centre_end,
-    y_number_of_slit_positions,
-    y_slit_dormant_size,
-    y_slit_dormant_centre,
-):
-    for position in slit_position_generator_1d(
-        x_slit_active_size,
-        x_slit_centre_start,
-        x_slit_centre_end,
-        x_number_of_slit_positions,
-    ):
-        yield (*position, y_slit_dormant_centre, y_slit_dormant_size)
-
-    for position in slit_position_generator_1d(
-        y_slit_active_size,
-        y_slit_centre_start,
-        y_slit_centre_end,
-        y_number_of_slit_positions,
-    ):
-        yield (x_slit_dormant_centre, x_slit_active_size, *position)
-"""
-
-
-"""
 def get_centroids_1d(
     bimorph,
     slit,
