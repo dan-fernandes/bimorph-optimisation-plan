@@ -8,21 +8,31 @@ from bluesky.callbacks import LiveTable
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_7_channel import (
     CAENelsBimorphMirror7Channel,
 )
+from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_16_channel import (
+    CAENelsBimorphMirror16Channel,
+)
 from dodal.devices.oav.oav_detector import OAV
-from dodal.devices.slits.S5_BL02J_AL_SLITS_95 import S5_BL02J_AL_SLITS_95
+
+# from dodal.devices.slits.S5_BL02J_AL_SLITS_95 import S5_BL02J_AL_SLITS_95 as Slit
 from dodal.devices.slits.I24_SLITS_04_VIRTUAL_MOTORS import (
     I24_SLITS_04_VIRTUAL_MOTORS as Slit,
 )
 
+# from dodal.devices.slits.I24_SLITS_04_VIRTUAL_MOTORS import (
+#    I24_SLITS_04_VIRTUAL_MOTORS as Slit,
+# )
+
 from bimorph_optimisation_plan.plan import get_centroids_2d
+
+import pytest
 
 RE = RunEngine({})
 # bec = BestEffortCallback()
 # RE.subscribe(bec)
-# BIMORPH_PREFIX = "BL02J-EA-IOC-97:G0:"
-BIMORPH_PREFIX = "BL24I-OP-PFM-01:G1:"
-# SLIT_PREFIX = "BL02J-AL-SLITS-95:"
-SLIT_PREFIX = "BL24I-AL-SLITS-02:"
+BIMORPH_PREFIX = "BL24I-OP-MFM-01:G0:"
+# BIMORPH_PREFIX = "BL24I-OP-PFM-01:G1:"
+SLIT_PREFIX = "BL24I-AL-SLITS-03:"
+# SLIT_PREFIX = "BL24I-AL-SLITS-02:"
 OAV_PREFIX = "BL24I"
 """
 "initial_voltage_list": [
@@ -46,28 +56,47 @@ OAV_PREFIX = "BL24I"
 """
 
 CONFIG = {
-    "initial_voltage_list": [-145.0, -82.0, -76.0, -29.0 - 3.0, 54.0, 121.0],
+    # "initial_voltage_list": [-145.0, -82.0, -76.0, -29.0 - 3.0, 54.0, 121.0],
+    "initial_voltage_list": [
+        -168.0,
+        -175.0,
+        -229.0,
+        -252.0,
+        -244.0,
+        -292.0,
+        -277.0,
+        -245.0,
+        -281.0,
+        -332.0,
+        -222.0,
+        -238.0,
+        -187.0,
+        -101.0,
+        -49.0,
+        -119.0,
+    ],
     "voltage_increment": 200,
     "x_slit_size": 0.025,
     "x_slit_centre_start": -11.5,
     "x_slit_centre_end": 24.5,
     "x_number_of_slit_positions": 240,  # 180,
-    "x_slit_dormant_centre": -9.78,
+    "x_slit_dormant_centre": 5.5,
     "x_slit_dormant_size": 3.0,
-    "y_slit_size": 0.02,
-    "y_slit_centre_start": 8.6,
-    "y_slit_centre_end": 10.0,
-    "y_number_of_slit_positions": 60,  # 240,
+    "y_slit_size": 0.007,
+    "y_slit_centre_start": 1.82,
+    "y_slit_centre_end": 2.220,
+    "y_number_of_slit_positions": 40,  # 240,
     "y_slit_dormant_centre": 2.33,
     "y_slit_dormant_size": 3.0,
-    "camera_exposure": 1,
+    "camera_exposure": 0.04,
     "bimorph_settle_time": 30,
     "output_file_path": "/home/fiw35684/temp/bimorph_test_output.csv",
 }
 
 
 def get_bimorph(bimorph_prefix=BIMORPH_PREFIX):
-    bimorph = CAENelsBimorphMirror7Channel(name="bimorph", prefix=bimorph_prefix)
+    # bimorph = CAENelsBimorphMirror7Channel(name="bimorph", prefix=bimorph_prefix)
+    bimorph = CAENelsBimorphMirror16Channel(name="bimorph", prefix=bimorph_prefix)
     bimorph.wait_for_connection()
     return bimorph
 
@@ -111,6 +140,7 @@ def make_csv(docs):
     return csv_str
 
 
+# @pytest.mark.foo
 def test_get_centroids_2d(config=CONFIG):
     bimorph = get_bimorph()
     bimorph.settle_time = config["bimorph_settle_time"]
@@ -158,6 +188,7 @@ def test_get_centroids_2d(config=CONFIG):
         file.write(csv)
 
 
+# @pytest.mark.foo
 def test_reads():
     bimorph = get_bimorph()
     slit = get_slit()
