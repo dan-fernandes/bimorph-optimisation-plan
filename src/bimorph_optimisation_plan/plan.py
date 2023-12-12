@@ -33,11 +33,12 @@ def slit_position_generator_1d(
     slit_size, slit_centre_start, slit_centre_end, number_of_slit_positions
 ):
     slit_centre_increment = (
-        slit_centre_start - slit_centre_end
+        slit_centre_end - slit_centre_start
     ) / number_of_slit_positions
 
     for i in range(number_of_slit_positions):
-        yield (slit_centre_increment * i, slit_size)
+        yield (slit_centre_increment * i + slit_centre_start, slit_size)
+
 
 """
 def get_centroids_1d(
@@ -87,9 +88,10 @@ def get_centroids_2d(
     y_slit_dormant_size,
     y_slit_dormant_centre,
 ):
-
     def take_readings(oav):
-        centroid_device = CentroidDevice(name=f"{oav.prefix}_centroid_device", prefix=oav.prefix)
+        centroid_device = CentroidDevice(
+            name=f"{oav.prefix}_centroid_device", prefix=oav.prefix
+        )
         yield from bps.create()
 
         for signal in bimorph.get_channels_by_attribute(ChannelAttribute.VOUT_RBV):
@@ -105,11 +107,12 @@ def get_centroids_2d(
 
         yield from bps.save()
 
-
     yield from bps.open_run()
 
     for voltage_list in voltage_list_generator(initial_voltage_list, voltage_increment):
         yield from bps.mv(bimorph, voltage_list)
+
+        """
 
         for x_position in slit_position_generator_1d(
             x_slit_active_size, x_slit_centre_start, x_slit_centre_end, x_number_of_slit_positions
@@ -119,9 +122,13 @@ def get_centroids_2d(
 
             take_readings(x_oav)
 
-       
+        """
+
         for y_position in slit_position_generator_1d(
-            y_slit_active_size, y_slit_centre_start, y_slit_centre_end, y_number_of_slit_positions
+            y_slit_active_size,
+            y_slit_centre_start,
+            y_slit_centre_end,
+            y_number_of_slit_positions,
         ):
             slit_position = (x_slit_dormant_centre, x_slit_dormant_size, *y_position)
             yield from bps.mv(slit, slit_position)
