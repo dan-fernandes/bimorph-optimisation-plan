@@ -94,7 +94,7 @@ CONFIG = {
     "y_slit_dormant_centre": 2.33,
     "y_slit_dormant_size": 3.0,
     "camera_exposure": 0.04,
-    "bimorph_settle_time": 30,
+    "bimorph_settle_time": 5,
     "output_file_path": "/home/fiw35684/temp/bimorph_test_output.csv",
 }
 
@@ -149,7 +149,6 @@ def make_csv(docs):
 # @pytest.mark.foo
 def test_pencil_beam_scan_2d_slit(config=CONFIG):
     bimorph = get_bimorph()
-    bimorph.settle_time = config["bimorph_settle_time"]
     slit = get_slit()
     oav = get_oav()
     import json
@@ -184,6 +183,7 @@ def test_pencil_beam_scan_2d_slit(config=CONFIG):
             config["y_number_of_slit_positions"],
             config["y_slit_dormant_size"],
             config["y_slit_dormant_centre"],
+            config["bimorph_settle_time"],
         ),
         aggregate_docs,
     )

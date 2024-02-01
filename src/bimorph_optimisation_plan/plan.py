@@ -106,6 +106,7 @@ def pencil_beam_scan_2d_slit(
     y_number_of_slit_positions: int,
     y_slit_dormant_size: float,
     y_slit_dormant_centre: float,
+    bimorph_settle_time: float,
 ):
     """Bluesky plan that performs a pencil beam scan across one axis using a 2-dimensional slit.
 
@@ -134,7 +135,7 @@ def pencil_beam_scan_2d_slit(
 
     for voltage_list in voltage_list_generator(initial_voltage_list, voltage_increment):
         print(f"Applying volts: {voltage_list}")
-        yield from bps.mv(bimorph, voltage_list)
+        yield from bps.mv(bimorph, voltage_list, settle_time=bimorph_settle_time)
 
         """
 
