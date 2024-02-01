@@ -72,7 +72,7 @@ def slit_position_generator_1d(
         yield (slit_centre_increment * i + slit_centre_start, slit_size)
 
 
-def pencil_beam_scan_2d_slits(
+def pencil_beam_scan_2d_slit(
     bimorph: CAENels_bimorph_mirror_interface,
     slit: GapAndCentreSlit2d,
     x_oav: OAV,
