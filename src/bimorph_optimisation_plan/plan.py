@@ -2,6 +2,7 @@ import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
 
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_interface import (
+    CAENelsBimorphMirrorInterface,
     ChannelAttribute,
 )
 from dodal.devices.slits.gap_and_centre_slit_base_classes import GapAndCentreSlit2d
@@ -87,7 +88,7 @@ def slit_position_generator_1d(
 
 
 def pencil_beam_scan_2d_slit(
-    bimorph: CAENels_bimorph_mirror_interface,
+    bimorph: CAENelsBimorphMirrorInterface,
     slit: GapAndCentreSlit2d,
     x_oav: OAV,
     y_oav: OAV,
