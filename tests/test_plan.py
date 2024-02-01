@@ -14,15 +14,15 @@ from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_16_channel import (
 from dodal.devices.oav.oav_detector import OAV
 
 # from dodal.devices.slits.S5_BL02J_AL_SLITS_95 import S5_BL02J_AL_SLITS_95 as Slit
-from dodal.devices.slits.I24_SLITS_04_VIRTUAL_MOTORS import (
-    I24_SLITS_04_VIRTUAL_MOTORS as Slit,
+from dodal.devices.slits.i24_slits_04_virtual_motors import (
+    I24Slits04VirtualMotors as Slit,
 )
 
 # from dodal.devices.slits.I24_SLITS_04_VIRTUAL_MOTORS import (
 #    I24_SLITS_04_VIRTUAL_MOTORS as Slit,
 # )
 
-from bimorph_optimisation_plan.plan import get_centroids_2d
+from bimorph_optimisation_plan.plan import pencil_beam_scan_2d_slit
 
 import pytest
 
@@ -141,7 +141,7 @@ def make_csv(docs):
 
 
 # @pytest.mark.foo
-def test_get_centroids_2d(config=CONFIG):
+def pencil_beam_scan_2d_slit(config=CONFIG):
     bimorph = get_bimorph()
     bimorph.settle_time = config["bimorph_settle_time"]
     slit = get_slit()
@@ -159,7 +159,7 @@ def test_get_centroids_2d(config=CONFIG):
         my_list.append(doc)
 
     RE(
-        get_centroids_2d(
+        pencil_beam_scan_2d_slit(
             bimorph,
             slit,
             oav,
