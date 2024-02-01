@@ -71,7 +71,7 @@ def slit_position_generator_1d(
         yield (slit_centre_increment * i + slit_centre_start, slit_size)
 
 
-def get_centroids_2d(
+def pencil_beam_scan_2d_slits(
     bimorph,
     slit,
     x_oav,
