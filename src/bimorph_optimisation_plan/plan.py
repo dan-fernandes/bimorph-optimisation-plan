@@ -71,34 +71,6 @@ def slit_position_generator_1d(
         yield (slit_centre_increment * i + slit_centre_start, slit_size)
 
 
-"""
-def get_centroids_1d(
-    bimorph,
-    slit,
-    oav,
-    initial_voltage_list,
-    voltage_increment,
-    slit_size,
-    slit_centre_start,
-    slit_centre_end,
-    number_of_slit_positions,
-):
-    bps.open_run()
-    for voltage_list in voltage_list_generator(initial_voltage_list, voltage_increment):
-        yield from bps.mv(bimorph, voltage_list)
-        yield from bps.read(bimorph)
-
-        for slit_position in slit_position_generator_1d(
-            slit_size, slit_centre_start, slit_centre_end, number_of_slit_positions
-        ):
-            yield from bps.mv(slit, *slit_position)
-            yield from bps.read([slit])
-            yield from bps.trigger_and_read([oav.stats.centroid])
-
-    bps.close_run()
-"""
-
-
 def get_centroids_2d(
     bimorph,
     slit,
