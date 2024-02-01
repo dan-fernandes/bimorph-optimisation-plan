@@ -14,7 +14,7 @@ from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_8_channel import (
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_16_channel import (
     CAENelsBimorphMirror16Channel,
 )
-from dodal.devices.oav.oav_detector import OAV
+from dodal.devices.oav.oav_detector import OAV, OAVConfigParams
 
 # from dodal.devices.slits.S5_BL02J_AL_SLITS_95 import S5_BL02J_AL_SLITS_95 as Slit
 from dodal.devices.slits.i24_slits_04_virtual_motors import (
@@ -37,6 +37,8 @@ BIMORPH_PREFIX = "BL02J-EA-IOC-97:G0:"
 SLIT_PREFIX = "BL02J-AL-SLITS-95:"
 # SLIT_PREFIX = "BL24I-AL-SLITS-02:"
 OAV_PREFIX = "BL24I"
+ZOOM_PARAMS_FILE = "/dls_sw/i24/software/gda/config/xml/jCameraManZoomLevels.xml"   
+DISPLAY_CONFIG = "/dls_sw/i24/software/gda_versions/var/display.configuration"
 """
 "initial_voltage_list": [
     -118.0,
@@ -110,8 +112,9 @@ def get_slit(slit_prefix=SLIT_PREFIX):
     return slit
 
 
-def get_oav(oav_prefix=OAV_PREFIX):
-    oav = OAV(name="oav", prefix=oav_prefix)
+def get_oav(oav_prefix=OAV_PREFIX, zoom_params_file=ZOOM_PARAMS_FILE, display_config=DISPLAY_CONFIG):
+    oav_config_params = OAVConfigParams(zoom_params_file, display_config)
+    oav = OAV(params = oav_config_params, name="oav", prefix=oav_prefix)
     oav.wait_for_connection()
     return oav
 
