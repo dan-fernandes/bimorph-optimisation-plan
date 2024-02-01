@@ -12,6 +12,20 @@ from ophyd import Component, Device, EpicsSignalRO
 from enum import Enum
 
 
+class SlitDimension(Enum):
+    """Enum representing the dimensions of a 2d slit
+
+    Used to describe which dimension the pencil beam scan should move across.
+    The other dimension will be held constant.
+
+    Attributes:
+        X: Represents X dimension
+        Y: Represents Y dimension
+    """
+    X = "X",
+    Y = "Y"
+
+
 class CentroidDevice(Device):
     """Jank class to access the CentroidX_RBV of an oav detector.
 
