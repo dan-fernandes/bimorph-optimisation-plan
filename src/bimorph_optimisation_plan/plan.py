@@ -4,6 +4,7 @@ import bluesky.preprocessors as bpp
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_interface import (
     ChannelAttribute,
 )
+from dodal.devices.slits.gap_and_centre_slit_base_classes import GapAndCentreSlit2d
 from dodal.devices.oav.oav_detector import OAV
 
 from ophyd import Component, Device, EpicsSignalRO
@@ -72,25 +73,29 @@ def slit_position_generator_1d(
 
 
 def pencil_beam_scan_2d_slits(
-    bimorph,
-    slit,
-    x_oav,
-    y_oav,
-    initial_voltage_list,
-    voltage_increment,
-    x_slit_active_size,
-    x_slit_centre_start,
-    x_slit_centre_end,
-    x_number_of_slit_positions,
-    x_slit_dormant_size,
-    x_slit_dormant_centre,
-    y_slit_active_size,
-    y_slit_centre_start,
-    y_slit_centre_end,
-    y_number_of_slit_positions,
-    y_slit_dormant_size,
-    y_slit_dormant_centre,
+    bimorph: CAENels_bimorph_mirror_interface,
+    slit: GapAndCentreSlit2d,
+    x_oav: OAV,
+    y_oav: OAV,
+    initial_voltage_list: list,
+    voltage_increment: float,
+    x_slit_active_size: float,
+    x_slit_centre_start: float,
+    x_slit_centre_end: float,
+    x_number_of_slit_positions: int,
+    x_slit_dormant_size: float,
+    x_slit_dormant_centre: float,
+    y_slit_active_size: float,
+    y_slit_centre_start: float,
+    y_slit_centre_end: float,
+    y_number_of_slit_positions: int,
+    y_slit_dormant_size: float,
+    y_slit_dormant_centre: float,
 ):
+    """Bluesky plan that performs a pencil beam scan across one axis using a 2-dimensional slit.
+
+    Performs a pencil beam scan across one axis, keeping the size and position of the complimentary axis constant.
+    """
     def take_readings(oav):
         centroid_device = CentroidDevice(
             name=f"{oav.prefix}_centroid_device", prefix=oav.prefix
