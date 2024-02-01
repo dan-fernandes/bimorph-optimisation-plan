@@ -133,6 +133,7 @@ def pencil_beam_scan_2d_slit(
     yield from bps.open_run()
 
     for voltage_list in voltage_list_generator(initial_voltage_list, voltage_increment):
+        print(f"Applying volts: {voltage_list}")
         yield from bps.mv(bimorph, voltage_list)
 
         """
@@ -153,6 +154,7 @@ def pencil_beam_scan_2d_slit(
             y_slit_centre_end,
             y_number_of_slit_positions,
         ):
+            print(f"Moving to position: {y_position}")
             slit_position = (x_slit_dormant_centre, x_slit_dormant_size, *y_position)
             yield from bps.mv(slit, slit_position)
 
