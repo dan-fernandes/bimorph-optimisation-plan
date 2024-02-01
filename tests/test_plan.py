@@ -8,6 +8,9 @@ from bluesky.callbacks import LiveTable
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_7_channel import (
     CAENelsBimorphMirror7Channel,
 )
+from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_8_channel import (
+    CAENelsBimorphMirror8Channel,
+)
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_16_channel import (
     CAENelsBimorphMirror16Channel,
 )
@@ -29,9 +32,9 @@ import pytest
 RE = RunEngine({})
 # bec = BestEffortCallback()
 # RE.subscribe(bec)
-BIMORPH_PREFIX = "BL24I-OP-MFM-01:G0:"
+BIMORPH_PREFIX = "BL02J-EA-IOC-97:G0:"
 # BIMORPH_PREFIX = "BL24I-OP-PFM-01:G1:"
-SLIT_PREFIX = "BL24I-AL-SLITS-03:"
+SLIT_PREFIX = "BL02J-AL-SLITS-95:"
 # SLIT_PREFIX = "BL24I-AL-SLITS-02:"
 OAV_PREFIX = "BL24I"
 """
@@ -96,7 +99,7 @@ CONFIG = {
 
 def get_bimorph(bimorph_prefix=BIMORPH_PREFIX):
     # bimorph = CAENelsBimorphMirror7Channel(name="bimorph", prefix=bimorph_prefix)
-    bimorph = CAENelsBimorphMirror16Channel(name="bimorph", prefix=bimorph_prefix)
+    bimorph = CAENelsBimorphMirror8Channel(name="bimorph", prefix=bimorph_prefix)
     bimorph.wait_for_connection()
     return bimorph
 
@@ -141,7 +144,7 @@ def make_csv(docs):
 
 
 # @pytest.mark.foo
-def pencil_beam_scan_2d_slit(config=CONFIG):
+def test_pencil_beam_scan_2d_slit(config=CONFIG):
     bimorph = get_bimorph()
     bimorph.settle_time = config["bimorph_settle_time"]
     slit = get_slit()
