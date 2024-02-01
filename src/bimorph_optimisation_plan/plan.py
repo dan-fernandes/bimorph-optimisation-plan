@@ -12,6 +12,12 @@ from enum import Enum
 
 
 class CentroidDevice(Device):
+    """Jank class to access the CentroidX_RBV of an oav detector.
+
+    Attributes:
+        centroid_x_rbv: An EpicsSignalRO for the centroid X readback value
+        centroid_y_rbv: An EpicsSignalRO for the centroid Y readback value
+    """
     centroid_x_rbv: EpicsSignalRO = Component(
         EpicsSignalRO, "-DI-OAV-01:STAT:CentroidX_RBV"
     )
@@ -21,6 +27,19 @@ class CentroidDevice(Device):
 
 
 def voltage_list_generator(initial_list, increment):
+    """Yields lists containing correct voltages to write to bimorph for pencil beam scan.
+
+    The generator takes an initial list of voltages and an increment.
+    It will apply this increment once to each element fron 0..n in turn.
+    This is how a pencil scan applies voltages.
+    
+    Args:
+        initial_list: the pre-increment list of voltages
+        increment: float to increment each element by in turn
+    
+    Yields:
+        A list of floats to apply to bimorph mirror
+    """
     yield initial_list
 
     for i in range(len(initial_list)):
@@ -32,6 +51,18 @@ def voltage_list_generator(initial_list, increment):
 def slit_position_generator_1d(
     slit_size, slit_centre_start, slit_centre_end, number_of_slit_positions
 ):
+    """Generator that yiels positions to write to slit for pencil beam scan.
+
+    Args:
+        slit_size: float constant gap size to write to slit
+        slit_centre_start: float position of centre at start of scan
+        slit_centre_end: float position of centre at end of scan
+        number_of_slit_positions: integer number of moves slit will take to traverse scan
+    
+    Yields:
+        A position to write to slit
+    """
+
     slit_centre_increment = (
         slit_centre_end - slit_centre_start
     ) / number_of_slit_positions
