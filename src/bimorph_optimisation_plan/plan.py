@@ -112,6 +112,9 @@ def pencil_beam_scan_2d_slit(
 
     Performs a pencil beam scan across one axis, keeping the size and position of the complimentary axis constant.
     """
+
+    
+    
     def take_readings(oav):
         centroid_device = CentroidDevice(
             name=f"{oav.prefix}_centroid_device", prefix=oav.prefix
@@ -132,6 +135,10 @@ def pencil_beam_scan_2d_slit(
         yield from bps.save()
 
     yield from bps.open_run()
+
+    start_voltages = bimorph.read_from_all_channels_by_attribute(ChannelAttribute.VOUT_RBV)
+    start_slit_positions = slit.read()
+    print(f"Start slt position: {start_slit_positions}")
 
     for voltage_list in voltage_list_generator(initial_voltage_list, voltage_increment):
         print(f"Applying volts: {voltage_list}")
@@ -160,5 +167,11 @@ def pencil_beam_scan_2d_slit(
             yield from bps.mv(slit, slit_position)
 
             yield from take_readings(y_oav)
-
+    
+    print(f"Moving bimorph to original position {start_voltages}...")
+    yield from bps.mv(bimorph, start_voltages)
+    print(f"Moving slits to original position {start_slit_positions}...")
+    yield from bps.mv(slit, start_slit_positions)
+    
+    print("Complete.")
     yield from bps.close_run()
