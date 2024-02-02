@@ -61,40 +61,23 @@ DISPLAY_CONFIG = "/dls_sw/i24/software/gda_versions/var/display.configuration"
 """
 
 CONFIG = {
-    # "initial_voltage_list": [-145.0, -82.0, -76.0, -29.0 - 3.0, 54.0, 121.0],
-    "initial_voltage_list": [
-        -168.0,
-        -175.0,
-        -229.0,
-        -252.0,
-        -244.0,
-        -292.0,
-        -277.0,
-        -245.0,
-        -281.0,
-        -332.0,
-        -222.0,
-        -238.0,
-        -187.0,
-        -101.0,
-        -49.0,
-        -119.0,
-    ],
-    "voltage_increment": 200,
+    #"initial_voltage_list": [-145.0, -82.0, -76.0, -29.0 - 3.0, 54.0, 121.0],
+    "initial_voltage_list": [0,0,0,0,0,0,0,0],
+    "voltage_increment": 0, #200,
     "x_slit_size": 0.025,
     "x_slit_centre_start": -11.5,
     "x_slit_centre_end": 24.5,
-    "x_number_of_slit_positions": 240,  # 180,
+    "x_number_of_slit_positions": 1, #240,  # 180,
     "x_slit_dormant_centre": 5.5,
     "x_slit_dormant_size": 3.0,
     "y_slit_size": 0.007,
     "y_slit_centre_start": 1.82,
     "y_slit_centre_end": 2.220,
-    "y_number_of_slit_positions": 40,  # 240,
+    "y_number_of_slit_positions": 1, #40,  # 240,
     "y_slit_dormant_centre": 2.33,
     "y_slit_dormant_size": 3.0,
     "camera_exposure": 0.04,
-    "bimorph_settle_time": 5,
+    "bimorph_settle_time": 0, #5,
     "output_file_path": "/home/fiw35684/temp/bimorph_test_output.csv",
 }
 
@@ -136,8 +119,6 @@ def make_csv(docs):
 
     csv_str = ",".join(headers) + "\n"
 
-    # print([row for row in zip(*[csv_dict[header] for header in headers])])
-
     csv_str += "\n".join(
         [",".join(row) for row in zip(*[csv_dict[header] for header in headers])]
     )
@@ -163,36 +144,36 @@ def test_pencil_beam_scan_2d_slit(config=CONFIG):
     def aggregate_docs(_, doc):
         my_list.append(doc)
 
-    RE(
-        pencil_beam_scan_2d_slit(
-            bimorph,
-            slit,
-            oav,
-            oav,
-            config["initial_voltage_list"],
-            config["voltage_increment"],
-            config["x_slit_size"],
-            config["x_slit_centre_start"],
-            config["x_slit_centre_end"],
-            config["x_number_of_slit_positions"],
-            config["x_slit_dormant_size"],
-            config["x_slit_dormant_centre"],
-            config["y_slit_size"],
-            config["y_slit_centre_start"],
-            config["y_slit_centre_end"],
-            config["y_number_of_slit_positions"],
-            config["y_slit_dormant_size"],
-            config["y_slit_dormant_centre"],
-            config["bimorph_settle_time"],
-        ),
-        aggregate_docs,
-    )
-
-    csv = make_csv(my_list)
-    print(csv)
-    with open(config["output_file_path"], "w") as file:
-        file.write(csv)
-
+    try:
+        RE(
+            pencil_beam_scan_2d_slit(
+                bimorph,
+                slit,
+                oav,
+                oav,
+                config["initial_voltage_list"],
+                config["voltage_increment"],
+                config["x_slit_size"],
+                config["x_slit_centre_start"],
+                config["x_slit_centre_end"],
+                config["x_number_of_slit_positions"],
+                config["x_slit_dormant_size"],
+                config["x_slit_dormant_centre"],
+                config["y_slit_size"],
+                config["y_slit_centre_start"],
+                config["y_slit_centre_end"],
+                config["y_number_of_slit_positions"],
+                config["y_slit_dormant_size"],
+                config["y_slit_dormant_centre"],
+                config["bimorph_settle_time"],
+            ),
+            aggregate_docs,
+        )
+    finally:
+        print("Saving data...")
+        csv = make_csv(my_list)
+        with open(config["output_file_path"], "w") as file:
+            file.write(csv)
 
 # @pytest.mark.foo
 def test_reads():
@@ -220,5 +201,3 @@ def test_reads():
             print(a)
         bps.save()
         bps.close_run()
-
-    RE(read_bimorph_slit_plan(bimorph, slit), dump_docs)
