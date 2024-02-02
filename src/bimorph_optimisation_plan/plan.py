@@ -159,6 +159,6 @@ def pencil_beam_scan_2d_slit(
             slit_position = (x_slit_dormant_centre, x_slit_dormant_size, *y_position)
             yield from bps.mv(slit, slit_position)
 
-            take_readings(y_oav)
+            yield from take_readings(y_oav)
 
     yield from bps.close_run()
