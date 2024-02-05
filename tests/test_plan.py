@@ -1,10 +1,15 @@
 import random
 
+import pytest
+
+# from dodal.devices.slits.I24_SLITS_04_VIRTUAL_MOTORS import (
+#    I24_SLITS_04_VIRTUAL_MOTORS as Slit,
+# )
+from bimorph_optimisation_plan.plan import pencil_beam_scan_2d_slit
 from bluesky import RunEngine
 from bluesky.callbacks import LiveTable
 
 # from bluesky.callbacks.best_effort import BestEffortCallback
-
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_7_channel import (
     CAENelsBimorphMirror7Channel,
 )
@@ -21,63 +26,50 @@ from dodal.devices.slits.i24_slits_04_virtual_motors import (
     I24Slits04VirtualMotors as Slit,
 )
 
-# from dodal.devices.slits.I24_SLITS_04_VIRTUAL_MOTORS import (
-#    I24_SLITS_04_VIRTUAL_MOTORS as Slit,
-# )
-
-from bimorph_optimisation_plan.plan import pencil_beam_scan_2d_slit
-
-import pytest
-
 RE = RunEngine({})
 # bec = BestEffortCallback()
 # RE.subscribe(bec)
-BIMORPH_PREFIX = "BL02J-EA-IOC-97:G0:"
-# BIMORPH_PREFIX = "BL24I-OP-PFM-01:G1:"
-SLIT_PREFIX = "BL02J-AL-SLITS-95:"
-# SLIT_PREFIX = "BL24I-AL-SLITS-02:"
+# BIMORPH_PREFIX = "BL02J-EA-IOC-97:G0:"
+BIMORPH_PREFIX = "BL24I-OP-MFM-01:G0:"
+# SLIT_PREFIX = "BL02J-AL-SLITS-95:"
+SLIT_PREFIX = "BL24I-AL-SLITS-03:"
 OAV_PREFIX = "BL24I"
 ZOOM_PARAMS_FILE = "/dls_sw/i24/software/gda/config/xml/jCameraManZoomLevels.xml"   
 DISPLAY_CONFIG = "/dls_sw/i24/software/gda_versions/var/display.configuration"
-"""
-"initial_voltage_list": [
-    -118.0,
-    -125.0,
-    -179.0,
-    -202.0,
-    -194.0,
-    -242.0,
-    -227.0,
-    -195.0,
-    -231.0,
-    -282.0,
-    -172.0,
-    -188.0,
-    -137.0,
-    -51.0,
-    1.0,
-    -69.0,
-],
-"""
-
 CONFIG = {
-    #"initial_voltage_list": [-145.0, -82.0, -76.0, -29.0 - 3.0, 54.0, 121.0],
-    "initial_voltage_list": [0,0,0,0,0,0,0,0],
-    "voltage_increment": 0, #200,
-    "x_slit_size": 0.025,
+    "initial_voltage_list": [
+        557.0,
+        550.0,
+        496.0,
+        473.0,
+        481.0,
+        433.0,
+        448.0,
+        480.0,
+        444.0,
+        393.0,
+        503.0,
+        487.0,
+        538.0,
+        624.0,
+        676.0,
+        606.0,
+    ],
+    "voltage_increment": 100,  # 200,
+    "x_slit_size": 0.01,
     "x_slit_centre_start": -11.5,
     "x_slit_centre_end": 24.5,
-    "x_number_of_slit_positions": 1, #240,  # 180,
-    "x_slit_dormant_centre": 5.5,
-    "x_slit_dormant_size": 3.0,
+    "x_number_of_slit_positions": 1,  # 240,  # 180,
+    "x_slit_dormant_centre": 1.94,
+    "x_slit_dormant_size": 4.0,
     "y_slit_size": 0.007,
-    "y_slit_centre_start": 1.82,
-    "y_slit_centre_end": 2.220,
-    "y_number_of_slit_positions": 1, #40,  # 240,
-    "y_slit_dormant_centre": 2.33,
+    "y_slit_centre_start": 1.5,
+    "y_slit_centre_end": 2.3,
+    "y_number_of_slit_positions": 16,  # 40,  # 240,
+    "y_slit_dormant_centre": 5,
     "y_slit_dormant_size": 3.0,
     "camera_exposure": 0.04,
-    "bimorph_settle_time": 0, #5,
+    "bimorph_settle_time": 0,  # 5,
     "output_file_path": "/home/fiw35684/temp/bimorph_test_output.csv",
 }
 
