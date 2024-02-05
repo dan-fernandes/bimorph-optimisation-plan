@@ -61,7 +61,7 @@ CONFIG = {
     "x_slit_centre_start": -11.5,
     "x_slit_centre_end": 24.5,
     "x_number_of_slit_positions": 1,  # 240,  # 180,
-    "x_slit_dormant_centre": 1.94,
+    "x_slit_dormant_centre": 5.0,
     "x_slit_dormant_size": 4.0,
     "y_slit_size": 0.007,
     "y_slit_centre_start": 1.5,
@@ -70,14 +70,14 @@ CONFIG = {
     "y_slit_dormant_centre": 5,
     "y_slit_dormant_size": 3.0,
     "camera_exposure": 0.04,
-    "bimorph_settle_time": 0,  # 5,
+    "bimorph_settle_time": 60,  # 5,
     "output_file_path": "/home/fiw35684/temp/bimorph_test_output.csv",
 }
 
 
 def get_bimorph(bimorph_prefix=BIMORPH_PREFIX):
     # bimorph = CAENelsBimorphMirror7Channel(name="bimorph", prefix=bimorph_prefix)
-    bimorph = CAENelsBimorphMirror8Channel(name="bimorph", prefix=bimorph_prefix)
+    bimorph = CAENelsBimorphMirror16Channel(name="bimorph", prefix=bimorph_prefix)
     bimorph.wait_for_connection()
     return bimorph
 
@@ -136,6 +136,9 @@ def test_pencil_beam_scan_2d_slit(config=CONFIG):
 
     def aggregate_docs(_, doc):
         my_list.append(doc)
+        csv = make_csv(my_list)
+        with open(config["output_file_path"], "w") as file:
+            file.write(csv)
 
     from bimorph_optimisation_plan.plan import CentroidDevice
 
