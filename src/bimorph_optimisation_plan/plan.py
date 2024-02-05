@@ -6,7 +6,6 @@ from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_interface import (
     CAENelsBimorphMirrorInterface,
     ChannelAttribute,
 )
-from dodal.devices.oav.oav_detector import OAV
 from dodal.devices.slits.gap_and_centre_slit_base_classes import GapAndCentreSlit2d
 from ophyd import Component, Device, EpicsSignalRO
 
@@ -88,8 +87,7 @@ def slit_position_generator_1d(
 def pencil_beam_scan_2d_slit(
     bimorph: CAENelsBimorphMirrorInterface,
     slit: GapAndCentreSlit2d,
-    x_oav: OAV,
-    y_oav: OAV,
+    centroid_device: CentroidDevice,
     initial_voltage_list: list,
     voltage_increment: float,
     x_slit_active_size: float,
@@ -110,12 +108,7 @@ def pencil_beam_scan_2d_slit(
 
     Performs a pencil beam scan across one axis, keeping the size and position of the complimentary axis constant.
     """
-    def take_readings(oav):
-        centroid_device = CentroidDevice(
-            name=f"{oav.prefix}_centroid_device", prefix=oav.prefix
-        )
-        centroid_device.wait_for_connection()
-
+    def take_readings():
         yield from bps.create()
 
         for signal in bimorph.get_channels_by_attribute(ChannelAttribute.VOUT_RBV):
@@ -131,12 +124,19 @@ def pencil_beam_scan_2d_slit(
     yield from bps.open_run()
 
     start_voltages = bimorph.read_from_all_channels_by_attribute(ChannelAttribute.VOUT_RBV)
-    start_slit_positions = slit.read()
-    print(f"Start slt position: {start_slit_positions}")
+    slit_read = slit.read()
+    start_slit_positions = [
+        slit_read[0]["slit_x_centre_readback_value"]["value"],
+        slit_read[1]["slit_x_size_readback_value"]["value"],
+        slit_read[2]["slit_y_centre_readback_value"]["value"],
+        slit_read[3]["slit_y_size_readback_value"]["value"],
+    ]
+    print(f"start_slit_positions: {start_slit_positions}")
 
     for voltage_list in voltage_list_generator(initial_voltage_list, voltage_increment):
         print(f"Applying volts: {voltage_list}")
         yield from bps.mv(bimorph, voltage_list, settle_time=bimorph_settle_time)
+        print("Settling...")
 
         """
 
@@ -160,7 +160,7 @@ def pencil_beam_scan_2d_slit(
             slit_position = (x_slit_dormant_centre, x_slit_dormant_size, *y_position)
             yield from bps.mv(slit, slit_position)
 
-            yield from take_readings(y_oav)
+            yield from take_readings()
 
     print(f"Moving bimorph to original position {start_voltages}...")
     yield from bps.mv(bimorph, start_voltages)
