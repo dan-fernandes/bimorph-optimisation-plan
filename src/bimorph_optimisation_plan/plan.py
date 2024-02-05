@@ -1,16 +1,14 @@
+from enum import Enum
+
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
-
 from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_interface import (
     CAENelsBimorphMirrorInterface,
     ChannelAttribute,
 )
-from dodal.devices.slits.gap_and_centre_slit_base_classes import GapAndCentreSlit2d
 from dodal.devices.oav.oav_detector import OAV
-
+from dodal.devices.slits.gap_and_centre_slit_base_classes import GapAndCentreSlit2d
 from ophyd import Component, Device, EpicsSignalRO
-
-from enum import Enum
 
 
 class SlitDimension(Enum):
@@ -113,12 +111,12 @@ def pencil_beam_scan_2d_slit(
     Performs a pencil beam scan across one axis, keeping the size and position of the complimentary axis constant.
     """
 
-    
-    
     def take_readings(oav):
         centroid_device = CentroidDevice(
             name=f"{oav.prefix}_centroid_device", prefix=oav.prefix
         )
+        centroid_device.wait_for_connection()
+
         yield from bps.create()
 
         for signal in bimorph.get_channels_by_attribute(ChannelAttribute.VOUT_RBV):
@@ -127,10 +125,10 @@ def pencil_beam_scan_2d_slit(
         for signal in (slit.x_size, slit.x_centre, slit.y_size, slit.y_centre):
             yield from bps.read(signal)
 
-        yield from bps.stage(oav)
+        # yield from bps.stage(oav)
         yield from bps.trigger(oav)
         yield from bps.read(centroid_device)
-        yield from bps.unstage(oav)
+        # yield from bps.unstage(oav)
 
         yield from bps.save()
 
@@ -167,11 +165,11 @@ def pencil_beam_scan_2d_slit(
             yield from bps.mv(slit, slit_position)
 
             yield from take_readings(y_oav)
-    
+
     print(f"Moving bimorph to original position {start_voltages}...")
     yield from bps.mv(bimorph, start_voltages)
     print(f"Moving slits to original position {start_slit_positions}...")
     yield from bps.mv(slit, start_slit_positions)
-    
+
     print("Complete.")
     yield from bps.close_run()
