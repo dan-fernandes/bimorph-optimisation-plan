@@ -110,7 +110,6 @@ def pencil_beam_scan_2d_slit(
 
     Performs a pencil beam scan across one axis, keeping the size and position of the complimentary axis constant.
     """
-
     def take_readings(oav):
         centroid_device = CentroidDevice(
             name=f"{oav.prefix}_centroid_device", prefix=oav.prefix
@@ -125,10 +124,7 @@ def pencil_beam_scan_2d_slit(
         for signal in (slit.x_size, slit.x_centre, slit.y_size, slit.y_centre):
             yield from bps.read(signal)
 
-        # yield from bps.stage(oav)
-        yield from bps.trigger(oav)
         yield from bps.read(centroid_device)
-        # yield from bps.unstage(oav)
 
         yield from bps.save()
 

@@ -36,6 +36,7 @@ SLIT_PREFIX = "BL24I-AL-SLITS-03:"
 OAV_PREFIX = "BL24I"
 ZOOM_PARAMS_FILE = "/dls_sw/i24/software/gda/config/xml/jCameraManZoomLevels.xml"   
 DISPLAY_CONFIG = "/dls_sw/i24/software/gda_versions/var/display.configuration"
+
 CONFIG = {
     "initial_voltage_list": [
         557.0,
@@ -136,13 +137,19 @@ def test_pencil_beam_scan_2d_slit(config=CONFIG):
     def aggregate_docs(_, doc):
         my_list.append(doc)
 
+    from bimorph_optimisation_plan.plan import CentroidDevice
+
+    centroid_device = CentroidDevice(
+        name=f"{OAV_PREFIX}_centroid_device", prefix=OAV_PREFIX
+    )
+    centroid_device.wait_for_connection()
+
     try:
         RE(
             pencil_beam_scan_2d_slit(
                 bimorph,
                 slit,
-                oav,
-                oav,
+                centroid_device,
                 config["initial_voltage_list"],
                 config["voltage_increment"],
                 config["x_slit_size"],
