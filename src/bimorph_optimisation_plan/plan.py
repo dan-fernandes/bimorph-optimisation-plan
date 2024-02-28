@@ -71,9 +71,9 @@ def slit_position_generator_1d(
         slit_centre_start: float position of centre at start of scan
         slit_centre_end: float position of centre at end of scan
         number_of_slit_positions: integer number of moves slit will take to traverse scan
-    
+
     Yields:
-        A position to write to slit
+        A position to write to slit in form (Center, Size)
     """
 
     slit_centre_increment = (
