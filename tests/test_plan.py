@@ -1,3 +1,4 @@
+import datetime
 import random
 
 import pytest
@@ -37,6 +38,7 @@ OAV_PREFIX = "BL24I"
 ZOOM_PARAMS_FILE = "/dls_sw/i24/software/gda/config/xml/jCameraManZoomLevels.xml"   
 DISPLAY_CONFIG = "/dls_sw/i24/software/gda_versions/var/display.configuration"
 
+
 CONFIG = {
     "initial_voltage_list": [
         557.0,
@@ -71,9 +73,23 @@ CONFIG = {
     "y_slit_dormant_size": 3.0,
     "camera_exposure": 0.04,
     "bimorph_settle_time": 60,  # 5,
-    "output_file_path": "/home/fiw35684/temp/bimorph_test_output.csv",
+    "output_file_directory": "/home/fiw35684/temp/",
+    "file_prefix": "I24-vmfm-pencilbeam-",
+    "file_timestamp_format": "%d%m%y-%H%M%S",
 }
 
+FILENAME = datetime.now().strftime("I24-vmfm-pencilbeam-%d%m%Y-%H%M%S.csv")
+# Generate filename:
+FILENAME = ""
+if "file_prefix" in CONFIG:
+    FILENAME += CONFIG["file_prefix"]
+else:
+    FILENAME += "pencilbeam-data-"
+if "file_timestamp_format" in CONFIG:
+    FILENAME += datetime.now().strftime(CONFIG["file_timestamp_format"])
+else:
+    FILENAME += datetime.now().strftime("%d-%m-%Y-%H-%M")
+FILENAME += ".csv"
 
 def get_bimorph(bimorph_prefix=BIMORPH_PREFIX):
     # bimorph = CAENelsBimorphMirror7Channel(name="bimorph", prefix=bimorph_prefix)
@@ -137,7 +153,7 @@ def test_pencil_beam_scan_2d_slit(config=CONFIG):
     def aggregate_docs(_, doc):
         my_list.append(doc)
         csv = make_csv(my_list)
-        with open(config["output_file_path"], "w") as file:
+        with open(config["output_file_directory"] + "/" + FILENAME, "w") as file:
             file.write(csv)
 
     from bimorph_optimisation_plan.plan import CentroidDevice
@@ -174,7 +190,7 @@ def test_pencil_beam_scan_2d_slit(config=CONFIG):
     finally:
         print("Saving data...")
         csv = make_csv(my_list)
-        with open(config["output_file_path"], "w") as file:
+        with open(config["output_file_directory"] + "/" + FILENAME, "w") as file:
             file.write(csv)
 
 # @pytest.mark.foo
