@@ -1,5 +1,5 @@
-import datetime
 import random
+from datetime import datetime
 
 import pytest
 
@@ -59,22 +59,21 @@ CONFIG = {
         606.0,
     ],
     "voltage_increment": 100,  # 200,
-    "x_slit_size": 0.01,
-    "x_slit_centre_start": -11.5,
-    "x_slit_centre_end": 24.5,
-    "x_number_of_slit_positions": 1,  # 240,  # 180,
+    "x_slit_size": 0.005,
+    "x_slit_centre_start": 4.60,
+    "x_slit_centre_end": 5.40,
+    "x_number_of_slit_positions": 160,  # 180,
     "x_slit_dormant_centre": 5.0,
     "x_slit_dormant_size": 4.0,
     "y_slit_size": 0.007,
     "y_slit_centre_start": 1.5,
     "y_slit_centre_end": 2.3,
     "y_number_of_slit_positions": 16,  # 40,  # 240,
-    "y_slit_dormant_centre": 5,
-    "y_slit_dormant_size": 3.0,
-    "camera_exposure": 0.04,
-    "bimorph_settle_time": 60,  # 5,
+    "y_slit_dormant_centre": 2.25,
+    "y_slit_dormant_size": 4.0,
+    "bimorph_settle_time": 0,  # 5,
     "output_file_directory": "/home/fiw35684/temp/",
-    "file_prefix": "I24-vmfm-pencilbeam-",
+    "file_prefix": "I24-hmfm-pencilbeam-",
     "file_timestamp_format": "%d%m%y-%H%M%S",
 }
 
