@@ -88,7 +88,6 @@ def pencil_beam_scan_2d_slit(
     bimorph: CAENelsBimorphMirrorInterface,
     slit: GapAndCentreSlit2d,
     centroid_device: CentroidDevice,
-    initial_voltage_list: list,
     voltage_increment: float,
     x_slit_active_size: float,
     x_slit_centre_start: float,
@@ -103,6 +102,7 @@ def pencil_beam_scan_2d_slit(
     y_slit_dormant_size: float,
     y_slit_dormant_centre: float,
     bimorph_settle_time: float,
+    initial_voltage_list: list = None,
 ):
     """Bluesky plan that performs a pencil beam scan across one axis using a 2-dimensional slit.
 
@@ -124,6 +124,10 @@ def pencil_beam_scan_2d_slit(
     yield from bps.open_run()
 
     start_voltages = bimorph.read_from_all_channels_by_attribute(ChannelAttribute.VOUT_RBV)
+
+    # By default, if no initial voltages supplied, use current voltages as start:
+    if initial_voltage_list is None:
+        initial_voltage_list = start_voltages
     slit_read = slit.read()
     start_slit_positions = [
         slit_read[0]["slit_x_centre_readback_value"]["value"],
@@ -139,7 +143,7 @@ def pencil_beam_scan_2d_slit(
         yield from bps.mv(bimorph, voltage_list, settle_time=bimorph_settle_time)
         print("Settling...")
 
-        slit_dimension = SlitDimension.X
+        slit_dimension = SlitDimension.Y
 
         """
 
