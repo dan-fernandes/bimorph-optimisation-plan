@@ -161,7 +161,7 @@ def pencil_beam_scan_2d_slit(
                 y_number_of_slit_positions,
             ):
                 print(
-                    f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)}), Slit position Center: {y_position[0]} Size: {y_position[1]} ({slit_move_count}/{y_number_of_slit_positions})"
+                    f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)+1}), Slit position Center: {y_position[0]} Size: {y_position[1]} ({slit_move_count}/{y_number_of_slit_positions})"
                 )
                 slit_position = (
                     x_slit_dormant_centre,
@@ -182,7 +182,7 @@ def pencil_beam_scan_2d_slit(
                 x_number_of_slit_positions,
             ):
                 print(
-                    f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)}), Slit position Center: {x_position[0]} Size: {x_position[1]} ({slit_move_count}/{x_number_of_slit_positions})"
+                    f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)}+1), Slit position Center: {x_position[0]} Size: {x_position[1]} ({slit_move_count}/{x_number_of_slit_positions})"
                 )
                 slit_position = (
                     x_position[0],
@@ -195,6 +195,7 @@ def pencil_beam_scan_2d_slit(
                 yield from take_readings()
 
                 slit_move_count += 1
+        bimorph_move_count += 1
 
     print(f"Moving bimorph to original position {start_voltages}...")
     yield from bps.mv(bimorph, start_voltages)
