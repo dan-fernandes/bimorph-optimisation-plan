@@ -61,6 +61,45 @@ def voltage_list_generator(initial_list, increment):
         yield initial_list
 
 
+def slit_position_generator_2d(
+    active_slit_centre_start: float,
+    active_slit_centre_end: float,
+    active_slit_size: float,
+    dormant_slit_centre: float,
+    dormant_slit_size: float,
+    number_of_slit_positions: int,
+    slit_dimension: SlitDimension,
+):
+
+    """Generator that yields positions to write to a 2d slit for a pencil beam scan.
+
+    Yields positions that vary across one dimension, while keeping the other constant.
+    
+    Args:
+        active_slit_centre_start: start position of centre of slit in active dimension
+        active_slit_centre_end: final position of centre of slit in active dimension
+        active_slit_size: size of slit in active dimension
+        dormant_slit_centre: centre of slit in inactive dimension
+        dormant_slit_size: size of slit in inactive dimension
+        number_of_slit_positions: number of slit positions generated
+        slit_dimension: active dimension (X or Y)
+    
+    Yield:
+        A position to write to slit in form  (x_centre, x_size, y_centre, y_size)
+    """
+    active_slit_centre_increment = (
+        active_slit_centre_end - active_slit_centre_start
+    ) / number_of_slit_positions
+
+    for i in range(number_of_slit_positions):
+        active_slit_center = slit_centre_increment * i + active_slit_centre_start
+        if SlitDimension == SlitDimension.X:
+            yield (active_slit_center, active_slit_size, dormant_slit_centre, dormant_slit_size)
+        else:
+            yield(dormant_slit_centre, dormant_slit_size, active_slit_center, active_slit_size)
+
+
+
 def slit_position_generator_1d(
     slit_size, slit_centre_start, slit_centre_end, number_of_slit_positions
 ):
