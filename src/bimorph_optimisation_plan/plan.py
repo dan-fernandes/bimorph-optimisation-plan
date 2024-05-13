@@ -128,18 +128,13 @@ def pencil_beam_scan_2d_slit(
     slit: GapAndCentreSlit2d,
     centroid_device: CentroidDevice,
     voltage_increment: float,
-    x_slit_active_size: float,
-    x_slit_centre_start: float,
-    x_slit_centre_end: float,
-    x_number_of_slit_positions: int,
-    x_slit_dormant_size: float,
-    x_slit_dormant_centre: float,
-    y_slit_active_size: float,
-    y_slit_centre_start: float,
-    y_slit_centre_end: float,
-    y_number_of_slit_positions: int,
-    y_slit_dormant_size: float,
-    y_slit_dormant_centre: float,
+    active_dimension: SlitDimension,
+    active_slit_size: float,
+    active_slit_centre_start: float,
+    active_slit_centre_end: float,
+    number_of_slit_positions: int,
+    dormant_slit_centre: float,
+    dormant_slit_size: float,
     bimorph_settle_time: float,
     initial_voltage_list: list = None,
 ):
@@ -167,6 +162,7 @@ def pencil_beam_scan_2d_slit(
     # By default, if no initial voltages supplied, use current voltages as start:
     if initial_voltage_list is None:
         initial_voltage_list = start_voltages
+
     slit_read = slit.read()
     start_slit_positions = [
         slit_read[0]["slit_x_centre_readback_value"]["value"],
@@ -182,61 +178,27 @@ def pencil_beam_scan_2d_slit(
         yield from bps.mv(bimorph, voltage_list, settle_time=bimorph_settle_time)
         print("Settling...")
 
-        slit_dimension = SlitDimension.Y
-
-        """
-
-        for x_position in slit_position_generator_1d(
-            x_slit_active_size, x_slit_centre_start, x_slit_centre_end, x_number_of_slit_positions
-        ):
-            slit_position = (*x_position, y_slit_dormant_centre, y_slit_dormant_size)
-            yield from bps.mv(slit, slit_position)
-
-            take_readings(x_oav)
-
-        """
         slit_move_count = 1
-        if slit_dimension == SlitDimension.Y:
-            for y_position in slit_position_generator_1d(
-                y_slit_active_size,
-                y_slit_centre_start,
-                y_slit_centre_end,
-                y_number_of_slit_positions,
-            ):
-                print(
-                    f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)+1}), Slit position Center: {y_position[0]} Size: {y_position[1]} ({slit_move_count}/{y_number_of_slit_positions})"
-                )
-                slit_position = (
-                    x_slit_dormant_centre,
-                    x_slit_dormant_size,
-                    *y_position,
-                )
-                yield from bps.mv(slit, slit_position)
 
-                yield from take_readings()
+        for slit_position in slit_position_generator_2d(
+            active_slit_centre_start,
+            active_slit_centre_end,
+            active_slit_size,
+            dormant_slit_centre,
+            dormant_slit_size,
+            number_of_slit_positions,
+            active_dimension
+        ):
 
-                slit_move_count += 1
+            yield from bps.mv(slit, slit_position)
+            yield from take_readings()
 
-        else:
-            for x_position in slit_position_generator_1d(
-                x_slit_active_size,
-                x_slit_centre_start,
-                x_slit_centre_end,
-                x_number_of_slit_positions,
-            ):
-                print(
-                    f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)}+1), Slit position Center: {x_position[0]} Size: {x_position[1]} ({slit_move_count}/{x_number_of_slit_positions})"
-                )
-                slit_position = (
-                    *x_position,
-                    y_slit_dormant_centre,
-                    y_slit_dormant_size,
-                )
-                yield from bps.mv(slit, slit_position)
+            print(
+                f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)+1}), Slit position: {slit_position}, ({slit_move_count}/{number_of_slit_positions})"
+            )
 
-                yield from take_readings()
+            slit_move_count += 1
 
-                slit_move_count += 1
         bimorph_move_count += 1
 
     print(f"Moving bimorph to original position {start_voltages}...")
