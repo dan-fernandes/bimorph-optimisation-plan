@@ -99,30 +99,6 @@ def slit_position_generator_2d(
             yield(dormant_slit_centre, dormant_slit_size, active_slit_center, active_slit_size)
 
 
-
-def slit_position_generator_1d(
-    slit_size, slit_centre_start, slit_centre_end, number_of_slit_positions
-):
-    """Generator that yiels positions to write to slit for pencil beam scan.
-
-    Args:
-        slit_size: float constant gap size to write to slit
-        slit_centre_start: float position of centre at start of scan
-        slit_centre_end: float position of centre at end of scan
-        number_of_slit_positions: integer number of moves slit will take to traverse scan
-
-    Yields:
-        A position to write to slit in form (Center, Size)
-    """
-
-    slit_centre_increment = (
-        slit_centre_end - slit_centre_start
-    ) / number_of_slit_positions
-
-    for i in range(number_of_slit_positions):
-        yield (slit_centre_increment * i + slit_centre_start, slit_size)
-
-
 def pencil_beam_scan_2d_slit(
     bimorph: CAENelsBimorphMirrorInterface,
     slit: GapAndCentreSlit2d,
