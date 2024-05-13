@@ -133,19 +133,6 @@ def pencil_beam_scan_2d_slit(
         bimorph_settle_time: period to wait after bimorph move
         initial_voltage_list: optional, initial list of voltages for bimorph (defaults to current position)
     """
-    def take_readings():
-        yield from bps.create()
-
-        for signal in bimorph.get_channels_by_attribute(ChannelAttribute.VOUT_RBV):
-            yield from bps.read(signal)
-
-        for signal in (slit.x_size, slit.x_center, slit.y_size, slit.y_centre):
-            yield from bps.read(signal)
-
-        yield from bps.read(centroid_device)
-
-        yield from bps.save()
-
     yield from bps.open_run()
 
     start_voltages = bimorph.read_from_all_channels_by_attribute(ChannelAttribute.VOUT_RBV)
@@ -182,7 +169,18 @@ def pencil_beam_scan_2d_slit(
         ):
 
             yield from bps.mv(slit, slit_position)
-            yield from take_readings()
+
+            yield from bps.create()
+
+            for signal in bimorph.get_channels_by_attribute(ChannelAttribute.VOUT_RBV):
+                yield from bps.read(signal)
+
+            for signal in (slit.x_size, slit.x_center, slit.y_size, slit.y_centre):
+                yield from bps.read(signal)
+
+            yield from bps.read(centroid_device)
+
+            yield from bps.save()
 
             print(
                 f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)+1}), Slit position: {slit_position}, ({slit_move_count}/{number_of_slit_positions})"
