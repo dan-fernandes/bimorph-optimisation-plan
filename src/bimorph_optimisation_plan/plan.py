@@ -6,7 +6,7 @@ from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_interface import (
     CAENelsBimorphMirrorInterface,
     ChannelAttribute,
 )
-from dodal.devices.slits.gap_and_centre_slit_base_classes import GapAndCentreSlit2d
+from dodal.devices.slits.gap_and_center_slit_base_classes import GapAndCenterSlit2d
 from ophyd import Component, Device, EpicsSignalRO
 
 
@@ -62,10 +62,10 @@ def voltage_list_generator(initial_list, increment):
 
 
 def slit_position_generator_2d(
-    active_slit_centre_start: float,
-    active_slit_centre_end: float,
+    active_slit_center_start: float,
+    active_slit_center_end: float,
     active_slit_size: float,
-    dormant_slit_centre: float,
+    dormant_slit_center: float,
     dormant_slit_size: float,
     number_of_slit_positions: int,
     slit_dimension: SlitDimension,
@@ -76,40 +76,40 @@ def slit_position_generator_2d(
     Yields positions that vary across one dimension, while keeping the other constant.
     
     Args:
-        active_slit_centre_start: start position of centre of slit in active dimension
-        active_slit_centre_end: final position of centre of slit in active dimension
+        active_slit_center_start: start position of centre of slit in active dimension
+        active_slit_center_end: final position of centre of slit in active dimension
         active_slit_size: size of slit in active dimension
-        dormant_slit_centre: centre of slit in inactive dimension
+        dormant_slit_center: centre of slit in inactive dimension
         dormant_slit_size: size of slit in inactive dimension
         number_of_slit_positions: number of slit positions generated
         slit_dimension: active dimension (X or Y)
     
     Yield:
-        A position to write to slit in form  (x_centre, x_size, y_centre, y_size)
+        A position to write to slit in form  (x_center, x_size, y_centre, y_size)
     """
-    active_slit_centre_increment = (
-        active_slit_centre_end - active_slit_centre_start
+    active_slit_center_increment = (
+        active_slit_center_end - active_slit_centre_start
     ) / number_of_slit_positions
 
     for i in range(number_of_slit_positions):
-        active_slit_center = slit_centre_increment * i + active_slit_centre_start
+        active_slit_center = slit_center_increment * i + active_slit_centre_start
         if SlitDimension == SlitDimension.X:
-            yield (active_slit_center, active_slit_size, dormant_slit_centre, dormant_slit_size)
+            yield (active_slit_center, active_slit_size, dormant_slit_center, dormant_slit_size)
         else:
-            yield(dormant_slit_centre, dormant_slit_size, active_slit_center, active_slit_size)
+            yield(dormant_slit_center, dormant_slit_size, active_slit_center, active_slit_size)
 
 
 def pencil_beam_scan_2d_slit(
     bimorph: CAENelsBimorphMirrorInterface,
-    slit: GapAndCentreSlit2d,
+    slit: GapAndcenterSlit2d,
     centroid_device: CentroidDevice,
     voltage_increment: float,
     active_dimension: SlitDimension,
     active_slit_size: float,
-    active_slit_centre_start: float,
-    active_slit_centre_end: float,
+    active_slit_center_start: float,
+    active_slit_center_end: float,
     number_of_slit_positions: int,
-    dormant_slit_centre: float,
+    dormant_slit_center: float,
     dormant_slit_size: float,
     bimorph_settle_time: float,
     initial_voltage_list: list = None,
@@ -124,7 +124,7 @@ def pencil_beam_scan_2d_slit(
         for signal in bimorph.get_channels_by_attribute(ChannelAttribute.VOUT_RBV):
             yield from bps.read(signal)
 
-        for signal in (slit.x_size, slit.x_centre, slit.y_size, slit.y_centre):
+        for signal in (slit.x_size, slit.x_center, slit.y_size, slit.y_centre):
             yield from bps.read(signal)
 
         yield from bps.read(centroid_device)
@@ -141,9 +141,9 @@ def pencil_beam_scan_2d_slit(
 
     slit_read = slit.read()
     start_slit_positions = [
-        slit_read[0]["slit_x_centre_readback_value"]["value"],
+        slit_read[0]["slit_x_center_readback_value"]["value"],
         slit_read[1]["slit_x_size_readback_value"]["value"],
-        slit_read[2]["slit_y_centre_readback_value"]["value"],
+        slit_read[2]["slit_y_center_readback_value"]["value"],
         slit_read[3]["slit_y_size_readback_value"]["value"],
     ]
     print(f"start_slit_positions: {start_slit_positions}")
@@ -157,10 +157,10 @@ def pencil_beam_scan_2d_slit(
         slit_move_count = 1
 
         for slit_position in slit_position_generator_2d(
-            active_slit_centre_start,
-            active_slit_centre_end,
+            active_slit_center_start,
+            active_slit_center_end,
             active_slit_size,
-            dormant_slit_centre,
+            dormant_slit_center,
             dormant_slit_size,
             number_of_slit_positions,
             active_dimension
