@@ -117,6 +117,21 @@ def pencil_beam_scan_2d_slit(
     """Bluesky plan that performs a pencil beam scan across one axis using a 2-dimensional slit.
 
     Performs a pencil beam scan across one axis, keeping the size and position of the complimentary axis constant.
+
+    Args:
+        bimorph: Bimorph mirror to move
+        slit: slit to move
+        centroid_device: centroid device to read
+        voltage_increment: voltage increment during pencil beam scan
+        active_dimension: dimension that slit will move across (X or Y)
+        active_slit_size: size of slit in active dimension
+        active_slit_center_start: start position of centre of slit in active dimension
+        active_slit_center_end: final position of centre of slit in active dimension
+        number_of_slit_positions: number of slit positions generated
+        inactive_slit_center: centre of slit in inactive dimension
+        inactive_slit_size: size of slit in inactive dimension
+        bimorph_settle_time: period to wait after bimorph move
+        initial_voltage_list: optional, initial list of voltages for bimorph (defaults to current position)
     """
     def take_readings():
         yield from bps.create()
