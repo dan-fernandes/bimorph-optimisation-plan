@@ -189,8 +189,7 @@ def pencil_beam_scan_2d_slit(
                     f"Bimorph position: {voltage_list} ({bimorph_move_count}/{len(initial_voltage_list)}+1), Slit position Center: {x_position[0]} Size: {x_position[1]} ({slit_move_count}/{x_number_of_slit_positions})"
                 )
                 slit_position = (
-                    x_position[0],
-                    x_position[1],
+                    *x_position,
                     y_slit_dormant_centre,
                     y_slit_dormant_size,
                 )
