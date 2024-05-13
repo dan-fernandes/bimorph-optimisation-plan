@@ -65,8 +65,8 @@ def slit_position_generator_2d(
     active_slit_center_start: float,
     active_slit_center_end: float,
     active_slit_size: float,
-    dormant_slit_center: float,
-    dormant_slit_size: float,
+    inactive_slit_center: float,
+    inactive_slit_size: float,
     number_of_slit_positions: int,
     slit_dimension: SlitDimension,
 ):
@@ -79,8 +79,8 @@ def slit_position_generator_2d(
         active_slit_center_start: start position of centre of slit in active dimension
         active_slit_center_end: final position of centre of slit in active dimension
         active_slit_size: size of slit in active dimension
-        dormant_slit_center: centre of slit in inactive dimension
-        dormant_slit_size: size of slit in inactive dimension
+        inactive_slit_center: centre of slit in inactive dimension
+        inactive_slit_size: size of slit in inactive dimension
         number_of_slit_positions: number of slit positions generated
         slit_dimension: active dimension (X or Y)
     
@@ -94,9 +94,9 @@ def slit_position_generator_2d(
     for i in range(number_of_slit_positions):
         active_slit_center = slit_center_increment * i + active_slit_centre_start
         if SlitDimension == SlitDimension.X:
-            yield (active_slit_center, active_slit_size, dormant_slit_center, dormant_slit_size)
+            yield (active_slit_center, active_slit_size, inactive_slit_center, dormant_slit_size)
         else:
-            yield(dormant_slit_center, dormant_slit_size, active_slit_center, active_slit_size)
+            yield(inactive_slit_center, dormant_slit_size, active_slit_center, active_slit_size)
 
 
 def pencil_beam_scan_2d_slit(
@@ -109,8 +109,8 @@ def pencil_beam_scan_2d_slit(
     active_slit_center_start: float,
     active_slit_center_end: float,
     number_of_slit_positions: int,
-    dormant_slit_center: float,
-    dormant_slit_size: float,
+    inactive_slit_center: float,
+    inactive_slit_size: float,
     bimorph_settle_time: float,
     initial_voltage_list: list = None,
 ):
@@ -160,8 +160,8 @@ def pencil_beam_scan_2d_slit(
             active_slit_center_start,
             active_slit_center_end,
             active_slit_size,
-            dormant_slit_center,
-            dormant_slit_size,
+            inactive_slit_center,
+            inactive_slit_size,
             number_of_slit_positions,
             active_dimension
         ):
