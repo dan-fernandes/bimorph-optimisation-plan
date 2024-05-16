@@ -20,24 +20,24 @@ def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str):
 
     return bimorph
 
-def get_slit(config_dict: dict):
+def get_slit(slit_type: str, slit_prefix: str, slit_name: str):
     """
     Takes config data and returns slit object of correct type.
 
     Args:
-        config_dict: dictionary containing slit_type and slit_prefix fields
+        slit_type: Type of slit to instantiate
+        slit_prefix: Prefix for slit ophyd object
+        slit_name: Name for slit ophyd object
     
     Returns:
         A slit ophyd object
     """    
-    slit_type = config_dict["slit_type"]
-
     if slit_type == "I24Slits04VirtualMotors":
         from dodal.devices.slits.i24_slits_04_virtual_motors import (
     I24Slits04VirtualMotors)
         slit_class = I24Slits04VirtualMotors
     
-    slit = slit_class(name="slit", prefix=config_dict["slit_prefix"])
+    slit = slit_class(name=slit_name, prefix=slit_prefix)
     slit.wait_for_connection()
 
     return slit
