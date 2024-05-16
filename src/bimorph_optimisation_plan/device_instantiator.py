@@ -42,26 +42,26 @@ def get_slit(slit_type: str, slit_prefix: str, slit_name: str):
 
     return slit
 
-def get_oav(config_dict: dict):
+def get_oav(oav_zoom_parameters_filepath: str, oav_display_configuration_filepath: str, oav_prefix: str, oav_name: str):
     """
     Takes config data and returns oav object of correct type.
 
     Args:
-        config_dict: dictionary containing fields:
-            oav_zoom_parameters_filepath
-            oav_display_configuration_filepath
-            oav_prefix
+        oav_zoom_parameters_filepath: Filepath to zoom parameters file
+        oav_display_configuration_filepath: Filepath to display config  file
+        oav_prefix: Name for oav ophyd object
+        oav_name: Name for oav ophyd object
 
     Returns:
         An oav ophyd object
     """  
     from dodal.devices.oav.oav_detector import OAV, OAVConfigParams
     oav_config_params = OAVConfigParams(
-        config_dict["oav_zoom_parameters_filepath"],
-        config_dict["oav_display_configuration_filepath"],
+        oav_zoom_parameters_filepath,
+        oav_display_configuration_filepath
     )
 
-    oav = OAV(params = oav_config_params, name="oav", prefix=config_dict["oav_prefix"])
+    oav = OAV(params = oav_config_params, name=oav_name, prefix=oav_prefix)
     oav.wait_for_connection()
 
     return oav
