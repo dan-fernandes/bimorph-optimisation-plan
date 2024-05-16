@@ -1,21 +1,21 @@
-def get_bimorph(config_dict: dict):
+def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str):
     """
     Takes config data and returns bimorph object of correct type.
 
     Args:
-        config_dict: dictionary containing bimorph_type and bimorph_prefix fields
+        bimorph_type: Type of bimorph to instantiate
+        bimorph_prefix: Prefix for bimorph ophyd object
+        bimorph_name: Name for bimorph ophyd object
     
     Returns:
         A bimorph ophyd object
     """
-    bimorph_type = config_dict["bimorph_type"]
-
     if bimorph_type == "CAENelsBimorphMirror7Channel":
         from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_7_channel import (
     CAENelsBimorphMirror7Channel)
         bimorph_class = CAENelsBimorphMirror7Channel
     
-    bimorph = bimorph_class(name="bimorph", prefix=config_dict["bimorph_prefix"])
+    bimorph = bimorph_class(name=bimorph_name, prefix=bimorph_prefix)
     bimorph.wait_for_connection()
 
     return bimorph
