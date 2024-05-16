@@ -65,3 +65,27 @@ def get_oav(oav_zoom_parameters_filepath: str, oav_display_configuration_filepat
     oav.wait_for_connection()
 
     return oav
+
+
+def get_centroid_device(centroid_device_prefix: str, centroid_device_name: str):
+    """
+    Takes config data and return centroid device object
+
+    Args:
+        centroid_device_prefix: Prefix for centroid ophyd object
+        centroid_device_name: Name for centroid ophyd object
+
+    Returns:
+        A centroid device ophyd object
+    """
+    from bimorph_optimisation_plan.plan import CentroidDevice
+
+    centroid_device = CentroidDevice(
+        name=centroid_device_name,
+        prefix=centroid_device_prefix
+    )
+
+    centroid_device.wait_for_connection()
+
+    return centroid_device
+
