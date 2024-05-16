@@ -62,7 +62,7 @@ def make_csv(docs: list) -> str:
     return csv_str
 
 
-def define_data_aggregator(filepath: str, filename: str) -> list, Callable:
+def define_data_aggregator(filepath: str, filename: str) -> tuple[list, Callable]:
     """
     Create a data structure and defines a function to give to Run Engine to save data
 
