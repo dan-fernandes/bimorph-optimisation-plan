@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import Callable
 
-def generate_filename(file_prefix:str = None, file_timestamp_format:str = None):
+def generate_filename(file_prefix:str = None, file_timestamp_format:str = None) -> str:
     """Generated a filename (without path) for plan output csv
 
     Args:
@@ -27,7 +28,7 @@ def generate_filename(file_prefix:str = None, file_timestamp_format:str = None):
     return filename
 
 
-def make_csv(docs):
+def make_csv(docs: list) -> str:
     """
     Takes a list of RunEngine output docs and converts to CSV format
 
@@ -61,7 +62,7 @@ def make_csv(docs):
     return csv_str
 
 
-def define_data_aggregator(filepath: str, filename: str):
+def define_data_aggregator(filepath: str, filename: str) -> list, Callable:
     """
     Create a data structure and defines a function to give to Run Engine to save data
 
