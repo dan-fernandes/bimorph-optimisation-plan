@@ -33,9 +33,7 @@ def run_plan(config_dict):
         config.get("slit_name")
     )
 
-    oav = device_instantiator.get_oav(
-        config.get("oav_zoom_parameters_filepath"),
-        config.get("oav_display_configuration_filepath"),
+    oav = device_instantiator.get_centroid_device(
         config.get("oav_prefix"),
         config.get("oav_name")
     )
