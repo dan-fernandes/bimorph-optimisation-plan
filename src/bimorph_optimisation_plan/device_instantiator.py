@@ -12,9 +12,21 @@ def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str):
     """
     if bimorph_type == "CAENelsBimorphMirror7Channel":
         from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_7_channel import (
-    CAENelsBimorphMirror7Channel)
+            CAENelsBimorphMirror7Channel,
+        )
+
         bimorph_class = CAENelsBimorphMirror7Channel
-    
+
+    if bimorph_type == "CAENelsBimorphMirror8Channel":
+        from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_8_channel import (
+            CAENelsBimorphMirror8Channel,
+        )
+
+        bimorph_class = CAENelsBimorphMirror8Channel
+
+    else:
+        raise Exception(f"Unimplemented or unrecognised bimorph type: {bimorph_type}")
+
     bimorph = bimorph_class(name=bimorph_name, prefix=bimorph_prefix)
     bimorph.wait_for_connection()
 
@@ -34,9 +46,11 @@ def get_slit(slit_type: str, slit_prefix: str, slit_name: str):
     """    
     if slit_type == "I24Slits04VirtualMotors":
         from dodal.devices.slits.i24_slits_04_virtual_motors import (
-    I24Slits04VirtualMotors)
+            I24Slits04VirtualMotors,
+        )
+
         slit_class = I24Slits04VirtualMotors
-    
+
     slit = slit_class(name=slit_name, prefix=slit_prefix)
     slit.wait_for_connection()
 
@@ -88,4 +102,3 @@ def get_centroid_device(centroid_device_prefix: str, centroid_device_name: str):
     centroid_device.wait_for_connection()
 
     return centroid_device
-
