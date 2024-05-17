@@ -1,9 +1,14 @@
-from argparse import ArgumentParser
-from bluesky import RunEngine
-import bimorph_optimisation_plan.data_saver
-import bimorph_optimisation_plan.device_instantiator
 import json
-from bimorph_optimisation_plan.pencil_beam_scan_2d_slit_plan import pencil_beam_scan_2d_slit, SlitDimension
+from argparse import ArgumentParser
+
+from bluesky import RunEngine
+
+import bimorph_optimisation_plan.data_saver
+from bimorph_optimisation_plan import device_instantiator
+from bimorph_optimisation_plan.pencil_beam_scan_2d_slit_plan import (
+    SlitDimension,
+    pencil_beam_scan_2d_slit,
+)
 
 from . import __version__
 
@@ -18,7 +23,7 @@ def main(args=None):
 
     with open(args.config_filepath[0]) as file:
         config_dict = json.load(file)
-    
+
 
 def run_plan(config_dict):
     RE = RunEngine({})
@@ -67,7 +72,6 @@ def run_plan(config_dict):
             config_dict.get("initial_voltage_list")
         )
     )
-
 
 
 # test with: python -m bimorph_optimisation_plan
