@@ -6,7 +6,7 @@ from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_interface import (
     CAENelsBimorphMirrorInterface,
     ChannelAttribute,
 )
-from dodal.devices.slits.gap_and_center_slit_base_classes import GapAndCentreSlit2d
+from dodal.devices.slits.gap_and_center_slit_base_classes import GapAndCenterSlit2d
 from ophyd import Component, Device, EpicsSignalRO
 
 
@@ -101,7 +101,7 @@ def slit_position_generator_2d(
 
 def pencil_beam_scan_2d_slit(
     bimorph: CAENelsBimorphMirrorInterface,
-    slit: GapAndcenterSlit2d,
+    slit: GapAndCenterSlit2d,
     centroid_device: CentroidDevice,
     voltage_increment: float,
     active_dimension: SlitDimension,
