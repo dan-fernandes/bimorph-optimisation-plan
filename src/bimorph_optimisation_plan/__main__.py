@@ -54,6 +54,8 @@ def run_plan(config_dict):
         config_dict.get("output_file_directory"), filename
     )
 
+    print("Starting run...")
+
     RE(
         pencil_beam_scan_2d_slit(
             bimorph,
@@ -69,7 +71,8 @@ def run_plan(config_dict):
             config_dict.get("number_of_slit_positions"),
             config_dict.get("bimorph_settle_time"),
             config_dict.get("initial_voltage_list"),
-        )
+        ),
+        aggregate_docs,
     )
 
 
