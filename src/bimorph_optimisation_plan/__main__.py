@@ -60,7 +60,7 @@ def run_plan(config_dict):
             slit,
             centroid_device,
             config_dict.get("voltage_increment"),
-            SlitDimension(config_dict.get("active_dimension")),
+            SlitDimension[config_dict.get("active_dimension")],
             config_dict.get("active_slit_center_start"),
             config_dict.get("active_slit_center_end"),
             config_dict.get("active_slit_size"),
