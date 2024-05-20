@@ -145,6 +145,13 @@ def pencil_beam_scan_2d_slit(
     """
     yield from bps.open_run()
 
+    # Check bimorph is turned on:
+    start_on_off = bimorph.on_off.read()[0]["value"]
+
+    if start_on_off == 0:
+        print("Turning bimorph on...")
+        bimorph.protected_set(bimorph.on_off, 1)
+
     start_voltages = bimorph.read_from_all_channels_by_attribute(ChannelAttribute.VOUT_RBV)
 
     # By default, if no initial voltages supplied, use current voltages as start:
@@ -204,6 +211,10 @@ def pencil_beam_scan_2d_slit(
     yield from bps.mv(bimorph, start_voltages)
     print(f"Moving slits to original position {start_slit_positions}...")
     yield from bps.mv(slit, start_slit_positions)
+
+    if start_on_off == 0:
+        print("Turning bimorph off...")
+        bimorph.protected_set(bimorph.on_off, 0)
 
     print("Complete.")
     yield from bps.close_run()
