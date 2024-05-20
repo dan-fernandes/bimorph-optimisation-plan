@@ -24,6 +24,8 @@ def main(args=None):
     with open(args.config_filepath[0]) as file:
         config_dict = json.load(file)
 
+    run_plan(config_dict)
+
 
 def run_plan(config_dict):
     RE = RunEngine({})
