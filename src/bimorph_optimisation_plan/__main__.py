@@ -41,9 +41,8 @@ def run_plan(config_dict):
         config_dict.get("slit_name")
     )
 
-    oav = device_instantiator.get_centroid_device(
-        config_dict.get("oav_prefix"),
-        config_dict.get("oav_name")
+    centroid_device = device_instantiator.get_centroid_device(
+        config_dict.get("oav_prefix"), config_dict.get("oav_name")
     )
 
     filename = data_saver.generate_filename(
