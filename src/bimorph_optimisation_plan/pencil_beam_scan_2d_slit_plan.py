@@ -6,7 +6,7 @@ from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_interface import (
     CAENelsBimorphMirrorInterface,
     ChannelAttribute,
 )
-from dodal.devices.slits.gap_and_centre_slit_base_classes import GapAndCentreSlit2d
+from dodal.devices.slits.gap_and_center_slit_base_classes import GapAndCentreSlit2d
 from ophyd import Component, Device, EpicsSignalRO
 
 
@@ -74,25 +74,25 @@ def slit_position_generator_2d(
     """Generator that yields positions to write to a 2d slit for a pencil beam scan.
 
     Yields positions that vary across one dimension, while keeping the other constant.
-    
+
     Args:
-        active_slit_center_start: start position of centre of slit in active dimension
-        active_slit_center_end: final position of centre of slit in active dimension
+        active_slit_center_start: start position of center of slit in active dimension
+        active_slit_center_end: final position of center of slit in active dimension
         active_slit_size: size of slit in active dimension
-        inactive_slit_center: centre of slit in inactive dimension
+        inactive_slit_center: center of slit in inactive dimension
         inactive_slit_size: size of slit in inactive dimension
         number_of_slit_positions: number of slit positions generated
         slit_dimension: active dimension (X or Y)
-    
+
     Yield:
-        A position to write to slit in form  (x_center, x_size, y_centre, y_size)
+        A position to write to slit in form  (x_center, x_size, y_center, y_size)
     """
     active_slit_center_increment = (
-        active_slit_center_end - active_slit_centre_start
+        active_slit_center_end - active_slit_center_start
     ) / number_of_slit_positions
 
     for i in range(number_of_slit_positions):
-        active_slit_center = slit_center_increment * i + active_slit_centre_start
+        active_slit_center = slit_center_increment * i + active_slit_center_start
         if SlitDimension == SlitDimension.X:
             yield (active_slit_center, active_slit_size, inactive_slit_center, dormant_slit_size)
         else:
@@ -101,7 +101,7 @@ def slit_position_generator_2d(
 
 def pencil_beam_scan_2d_slit(
     bimorph: CAENelsBimorphMirrorInterface,
-    slit: GapAndCentreSlit2d,
+    slit: GapAndcenterSlit2d,
     centroid_device: CentroidDevice,
     voltage_increment: float,
     active_dimension: SlitDimension,
@@ -124,10 +124,10 @@ def pencil_beam_scan_2d_slit(
         centroid_device: centroid device to read
         voltage_increment: voltage increment during pencil beam scan
         active_dimension: dimension that slit will move across (X or Y)
-        active_slit_center_start: start position of centre of slit in active dimension
-        active_slit_center_end: final position of centre of slit in active dimension
+        active_slit_center_start: start position of center of slit in active dimension
+        active_slit_center_end: final position of center of slit in active dimension
         active_slit_size: size of slit in active dimension
-        inactive_slit_center: centre of slit in inactive dimension
+        inactive_slit_center: center of slit in inactive dimension
         inactive_slit_size: size of slit in inactive dimension
         number_of_slit_positions: number of slit positions generated
         bimorph_settle_time: period to wait after bimorph move
@@ -175,7 +175,7 @@ def pencil_beam_scan_2d_slit(
             for signal in bimorph.get_channels_by_attribute(ChannelAttribute.VOUT_RBV):
                 yield from bps.read(signal)
 
-            for signal in (slit.x_size, slit.x_center, slit.y_size, slit.y_centre):
+            for signal in (slit.x_size, slit.x_center, slit.y_size, slit.y_center):
                 yield from bps.read(signal)
 
             yield from bps.read(centroid_device)
