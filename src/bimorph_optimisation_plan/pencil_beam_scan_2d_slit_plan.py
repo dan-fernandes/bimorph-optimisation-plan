@@ -146,7 +146,7 @@ def pencil_beam_scan_2d_slit(
     yield from bps.open_run()
 
     # Check bimorph is turned on:
-    start_on_off = bimorph.on_off.read()[0]["value"]
+    start_on_off = bimorph.on_off.read()["bimorph_on_off"]["value"]
 
     if start_on_off == 0:
         print("Turning bimorph on...")
