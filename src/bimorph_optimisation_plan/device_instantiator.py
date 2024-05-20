@@ -24,6 +24,20 @@ def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str = "bim
 
         bimorph_class = CAENelsBimorphMirror8Channel
 
+    elif bimorph_type == "CAENelsBimorphMirror12Channel":
+        from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_12_channel import (
+            CAENelsBimorphMirror12Channel,
+        )
+        
+        bimorph_class = CAENelsBimorphMirror12Channel
+    
+    elif bimorph_type == "CAENelsBimorphMirror32Channel":
+        from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_32_channel import(
+            CAENelsBimorphMirror32Channel,
+        )
+
+        bimorph_class = CAENelsBimorphMirror32Channel
+
     else:
         raise Exception(f"Unimplemented or unrecognised bimorph type: {bimorph_type}")
 
