@@ -60,7 +60,7 @@ def run_plan(config_dict):
             slit,
             centroid_device,
             config_dict.get("voltage_increment"),
-            SlitDimension(config.get("active_dimension")),
+            SlitDimension(config_dict.get("active_dimension")),
             config_dict.get("active_slit_center_start"),
             config_dict.get("active_slit_center_end"),
             config_dict.get("active_slit_size"),
@@ -68,7 +68,7 @@ def run_plan(config_dict):
             config_dict.get("inactive_slit_size"),
             config_dict.get("number_of_slit_positions"),
             config_dict.get("bimorph_settle_time"),
-            config_dict.get("initial_voltage_list")
+            config_dict.get("initial_voltage_list"),
         )
     )
 
