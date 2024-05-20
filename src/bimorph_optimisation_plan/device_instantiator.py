@@ -17,7 +17,7 @@ def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str):
 
         bimorph_class = CAENelsBimorphMirror7Channel
 
-    if bimorph_type == "CAENelsBimorphMirror8Channel":
+    elif bimorph_type == "CAENelsBimorphMirror8Channel":
         from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_8_channel import (
             CAENelsBimorphMirror8Channel,
         )
