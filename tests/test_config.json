@@ -7,6 +7,8 @@
     "slit_name": "slit",
     "oav_prefix": "BL24I",
     "oav_name": "oav",
+    "centroid_device_prefix": "BL22I-DI-PHDGN-08:STAT:",
+    "centroid_device_name": "centroid_device",
     "oav_zoom_parameters_filepath": "/dls_sw/i24/software/gda/config/xml/jCameraManZoomLevels.xml",
     "oav_display_configuration_filepath": "/dls_sw/i24/software/gda_versions/var/display.configuration",
     "voltage_increment": 100,
