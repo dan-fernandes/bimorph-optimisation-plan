@@ -51,9 +51,8 @@ def run_plan(config_dict):
         config_dict.get("file_timestamp_format")
     )
 
-    data_list, aggregate_docs = device_instantiator.define_data_aggregator(
-        config_dict.get("output_file_directory"),
-        filename
+    data_list, aggregate_docs = data_saver.define_data_aggregator(
+        config_dict.get("output_file_directory"), filename
     )
 
     RE(
