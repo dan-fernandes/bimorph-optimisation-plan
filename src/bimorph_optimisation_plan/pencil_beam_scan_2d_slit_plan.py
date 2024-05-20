@@ -92,11 +92,21 @@ def slit_position_generator_2d(
     ) / number_of_slit_positions
 
     for i in range(number_of_slit_positions):
-        active_slit_center = slit_center_increment * i + active_slit_center_start
+        active_slit_center = active_slit_center_increment * i + active_slit_center_start
         if SlitDimension == SlitDimension.X:
-            yield (active_slit_center, active_slit_size, inactive_slit_center, dormant_slit_size)
+            yield (
+                active_slit_center,
+                active_slit_size,
+                inactive_slit_center,
+                inactive_slit_size,
+            )
         else:
-            yield(inactive_slit_center, dormant_slit_size, active_slit_center, active_slit_size)
+            yield (
+                inactive_slit_center,
+                inactive_slit_size,
+                active_slit_center,
+                active_slit_size,
+            )
 
 
 def pencil_beam_scan_2d_slit(
