@@ -100,7 +100,7 @@ def get_centroid_device(centroid_device_prefix: str, centroid_device_name: str):
     Returns:
         A centroid device ophyd object
     """
-    from bimorph_optimisation_plan.plan import CentroidDevice
+    from bimorph_optimisation_plan.pencil_beam_scan_2d_slit_plan import CentroidDevice
 
     centroid_device = CentroidDevice(
         name=centroid_device_name,
