@@ -3,8 +3,7 @@ from argparse import ArgumentParser
 
 from bluesky import RunEngine
 
-import bimorph_optimisation_plan.data_saver
-from bimorph_optimisation_plan import device_instantiator
+from bimorph_optimisation_plan import data_saver, device_instantiator
 from bimorph_optimisation_plan.pencil_beam_scan_2d_slit_plan import (
     SlitDimension,
     pencil_beam_scan_2d_slit,
