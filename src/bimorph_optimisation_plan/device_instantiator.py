@@ -1,4 +1,4 @@
-def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str):
+def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str = "bimorph"):
     """
     Takes config data and returns bimorph object of correct type.
 
@@ -32,7 +32,8 @@ def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str):
 
     return bimorph
 
-def get_slit(slit_type: str, slit_prefix: str, slit_name: str):
+
+def get_slit(slit_type: str, slit_prefix: str, slit_name: str = "slit"):
     """
     Takes config data and returns slit object of correct type.
 
@@ -64,7 +65,13 @@ def get_slit(slit_type: str, slit_prefix: str, slit_name: str):
 
     return slit
 
-def get_oav(oav_zoom_parameters_filepath: str, oav_display_configuration_filepath: str, oav_prefix: str, oav_name: str):
+
+def get_oav(
+    oav_zoom_parameters_filepath: str,
+    oav_display_configuration_filepath: str,
+    oav_prefix: str,
+    oav_name: str = "oav",
+):
     """
     Takes config data and returns oav object of correct type.
 
