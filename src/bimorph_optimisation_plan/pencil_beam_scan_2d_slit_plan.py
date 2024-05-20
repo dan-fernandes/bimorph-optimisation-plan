@@ -28,14 +28,14 @@ class CentroidDevice(Device):
     """Jank class to access the CentroidX_RBV of an oav detector.
 
     Attributes:
-        centroid_x_rbv: An EpicsSignalRO for the centroid X readback value
+        centroid_x_rbv: An EpicsSignalRO for the cenctroid X readback value
         centroid_y_rbv: An EpicsSignalRO for the centroid Y readback value
     """
     centroid_x_rbv: EpicsSignalRO = Component(
-        EpicsSignalRO, "-DI-OAV-01:STAT:CentroidX_RBV"
+        EpicsSignalRO, "CentroidX_RBV"
     )
     centroid_y_rbv: EpicsSignalRO = Component(
-        EpicsSignalRO, "-DI-OAV-01:STAT:CentroidY_RBV"
+        EpicsSignalRO, "CentroidY_RBV"
     )
 
 
