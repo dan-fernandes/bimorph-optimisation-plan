@@ -51,6 +51,14 @@ def get_slit(slit_type: str, slit_prefix: str, slit_name: str):
 
         slit_class = I24Slits04VirtualMotors
 
+    elif slit_type == "S5Bl02jAlSlits":
+        from dodal.devices.slits.s5_blo2j_al_slits_95 import S5Bl02jAlSlits
+
+        slit_class = S5Bl02jAlSlits
+
+    else:
+        raise Exception(f"Unrecognised or unimplemented slit type: {slit_type}")
+
     slit = slit_class(name=slit_name, prefix=slit_prefix)
     slit.wait_for_connection()
 
