@@ -31,6 +31,13 @@ def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str = "bim
         
         bimorph_class = CAENelsBimorphMirror12Channel
     
+    elif bimorph_type == "CAENelsBimorphMirror16Channel":
+        from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_16_channel import (
+            CAENelsBimorphMirror16Channel,
+        )
+
+        bimorph_class = CAENelsBimorphMirror16Channel
+    
     elif bimorph_type == "CAENelsBimorphMirror32Channel":
         from dodal.devices.bimorph_mirrors.CAENels_bimorph_mirror_32_channel import(
             CAENelsBimorphMirror32Channel,
