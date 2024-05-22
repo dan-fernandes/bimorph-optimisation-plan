@@ -40,7 +40,7 @@ class CentroidDevice(Device):
         EpicsSignalRO, "CentroidY_RBV"
     )
 
-    self.values_to_average = 1
+    values_to_average = 1
 
     def read(self):
         centroid_x_summation = 0
