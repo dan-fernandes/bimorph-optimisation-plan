@@ -160,10 +160,10 @@ def pencil_beam_scan_2d_slit(
 
     slit_read = slit.read()
     start_slit_positions = [
-        slit_read[0]["slit_x_center_readback_value"]["value"],
-        slit_read[1]["slit_x_size_readback_value"]["value"],
-        slit_read[2]["slit_y_center_readback_value"]["value"],
-        slit_read[3]["slit_y_size_readback_value"]["value"],
+        slit_read[0]["slit_x_center"]["value"],
+        slit_read[1]["slit_x_size"]["value"],
+        slit_read[2]["slit_y_center"]["value"],
+        slit_read[3]["slit_y_size"]["value"],
     ]
     print(f"start_slit_positions: {start_slit_positions}")
 
