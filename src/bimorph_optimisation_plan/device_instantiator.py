@@ -66,7 +66,14 @@ def get_slit(slit_type: str, slit_prefix: str, slit_name: str = "slit"):
     Returns:
         A slit ophyd object
     """    
-    if slit_type == "I24Slits04VirtualMotors":
+    if slit_type == "SimulatedSlit":
+        from dodal.devices.slits.simulated_slit import(
+            SimulatedSlit
+        )
+
+        slit_class = SimulatedSlit
+
+    elif slit_type == "I24Slits04VirtualMotors":
         from dodal.devices.slits.i24_slits_04_virtual_motors import (
             I24Slits04VirtualMotors,
         )
