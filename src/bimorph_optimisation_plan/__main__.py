@@ -42,7 +42,7 @@ def run_plan(config_dict):
     )
 
     centroid_device = device_instantiator.get_centroid_device(
-        config_dict.get("centroid_device_prefix"), config_dict.get("centroid_device_name")
+        config_dict.get("centroid_device_prefix"), config_dict.get("centroid_device_name"), config_dict.get("values_to_average")
     )
 
     filename = data_saver.generate_filename(

@@ -124,13 +124,14 @@ def get_oav(
     return oav
 
 
-def get_centroid_device(centroid_device_prefix: str, centroid_device_name: str):
+def get_centroid_device(centroid_device_prefix: str, centroid_device_name: str, values_to_average: int = 1):
     """
     Takes config data and return centroid device object
 
     Args:
         centroid_device_prefix: Prefix for centroid ophyd object
         centroid_device_name: Name for centroid ophyd object
+        values_to_average (optional): Number of reads central will do, then take mean
 
     Returns:
         A centroid device ophyd object

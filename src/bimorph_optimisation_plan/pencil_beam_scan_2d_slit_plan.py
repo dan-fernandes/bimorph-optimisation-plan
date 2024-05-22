@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from enum import Enum
 
 import bluesky.plan_stubs as bps
@@ -30,6 +31,7 @@ class CentroidDevice(Device):
     Attributes:
         centroid_x_rbv: An EpicsSignalRO for the cenctroid X readback value
         centroid_y_rbv: An EpicsSignalRO for the centroid Y readback value
+        valutes_to_average: Number of reads centroid will do, then take mean
     """
     centroid_x_rbv: EpicsSignalRO = Component(
         EpicsSignalRO, "CentroidX_RBV"
@@ -37,6 +39,32 @@ class CentroidDevice(Device):
     centroid_y_rbv: EpicsSignalRO = Component(
         EpicsSignalRO, "CentroidY_RBV"
     )
+
+    self.values_to_average = 1
+
+    def read(self):
+        centroid_x_summation = 0
+        centroid_y_summation = 0
+        for _ in range(self.values_to_average):
+            centroid_x_read = self.centroid_x_rbv.read()
+            centroid_y_read = self.centroid_y_rbv.read()
+            centroid_x_summation += centroid_x_read[self.name+"_centroid_x_rbv"]["value"]
+            centroid_y_summation += centroid_y_read[self.name+"_centroid_y_rbv"]["value"]
+
+        centroid_x_mean = centroid_x_summation / self.values_to_average        
+        centroid_y_mean = centroid_y_summation / self.values_to_average
+
+        centroid_x_read[self.name+"_centroid_x_rbv"]["value"] = centroid_x_mean
+        centroid_y_read[self.name+"_centroid_y_rbv"]["value"] = centroid_y_mean
+
+        od = OrderedDict()
+        
+        od[self.name+"_centroid_x_rbv"] = centroid_x_read[self.name+"_centroid_x_rbv"]
+        od[self.name+"_centroid_y_rbv"] = centroid_y_read[self.name+"_centroid_y_rbv"]
+
+        return od
+
+
 
 
 def voltage_list_generator(initial_list, increment):
