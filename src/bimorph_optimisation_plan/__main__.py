@@ -13,7 +13,6 @@ from . import __version__
 
 __all__ = ["main"]
 
-
 def main(args=None):
     parser = ArgumentParser()
     parser.add_argument("config_filepath", type=str, nargs=1, help="Filepath to configuration json")
@@ -24,7 +23,6 @@ def main(args=None):
         config_dict = json.load(file)
 
     run_plan(config_dict)
-
 
 def run_plan(config_dict):
     RE = RunEngine({})
@@ -74,7 +72,6 @@ def run_plan(config_dict):
         ),
         aggregate_docs,
     )
-
 
 # test with: python -m bimorph_optimisation_plan
 if __name__ == "__main__":
