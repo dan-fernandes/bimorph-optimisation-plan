@@ -53,6 +53,7 @@ def get_bimorph(bimorph_type: str, bimorph_prefix: str, bimorph_name: str = "bim
 
     return bimorph
 
+
 def get_slit(slit_type: str, slit_prefix: str, slit_name: str = "slit"):
     """
     Takes config data and returns slit object of correct type.
@@ -92,6 +93,7 @@ def get_slit(slit_type: str, slit_prefix: str, slit_name: str = "slit"):
 
     return slit
 
+
 def get_oav(
     oav_zoom_parameters_filepath: str,
     oav_display_configuration_filepath: str,
@@ -120,6 +122,7 @@ def get_oav(
     oav.wait_for_connection()
 
     return oav
+
 
 def get_centroid_device(centroid_device_prefix: str, centroid_device_name: str, values_to_average: int = 1):
     """
